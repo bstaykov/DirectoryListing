@@ -6,39 +6,99 @@
     ViewBag.Title = "Directories";
 }
 
-<div class="jumbotron">
+<div class="">
     <div id="content">
-        @if (@Model.ParentDirectory != null)
-        {
-            @Ajax.ActionLink("", "", null)
-        }
 
-        @{
-            foreach (var directory in @Model.Directories)
-            {
-                <div class="row">
-                    @directory
-                </div>
-            }
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <div class="col-lg-12">
+                        @if (@Model.ParentDirectory == null)
+                        {
+                            <ul class="nav nav-pills">
+                                <li role="presentation" class="disabled">
+                                    @Ajax.ActionLink(" Parent Directory",
+                                        "Index",
+                                        null,
+                                        new AjaxOptions
+                                        {
 
-            foreach (var file in @Model.Files)
-            {
-                <div class="row">
-                    @file
-                </div>
+                                        },
+                                        htmlAttributes: new
+                                        {
+                                            @class = "glyphicon glyphicon-folder-open ",
+                                            Title = "Parent Directory"
+                                        })
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            @Ajax.ActionLink(" Parent Directory",
+                                "Index",
+                                null,
+                                new AjaxOptions
+                                {
+
+                                },
+                                htmlAttributes: new
+                                {
+                                    @class = "glyphicon glyphicon-folder-open ",
+                                    Title = "Parent Directory"
+                                })
+                        }
+                    </div>
+                </td>
+            </tr>
+
+            @{
+                foreach (var directory in @Model.Directories)
+                {
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span class="glyphicon glyphicon-folder-close" aria-hidden="true" title="Open Directory"></span> @Ajax.ActionLink(@directory, "", null)
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Delete Directory">@Ajax.ActionLink("Delete", "", null)</span>
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Directory Name">@Ajax.ActionLink("Edit", "", null)</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+                foreach (var file in @Model.Files)
+                {
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @file
+
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" title="Delete File">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit File">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" title="Download File">
+                                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
+        </table>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-</div>
+<button type="button" class="btn btn-default" title="Create Directory">
+    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+</button>
+
+<button type="button" class="btn btn-default" aria-label="Left Align" title="Upload File">
+    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+</button>

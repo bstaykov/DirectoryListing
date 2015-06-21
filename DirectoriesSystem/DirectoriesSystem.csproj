@@ -111,10 +111,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Files\Class1.cs" />
-    <Compile Include="Files\Class2.cs" />
-    <Compile Include="Files\NewFolder1\Class1.cs" />
-    <Compile Include="Files\NewFolder1\NewFolder1\Class1.cs" />
+    <Compile Include="Files\RootFolder\Class1.cs" />
+    <Compile Include="Files\RootFolder\Class2.cs" />
+    <Compile Include="Files\RootFolder\NewFolder1\Class1.cs" />
+    <Compile Include="Files\RootFolder\NewFolder1\NewFolder1\Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,8 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Files\NewFolder2\" />
-    <Folder Include="Files\NewFolder3\" />
+    <Folder Include="Files\RootFolder\NewFolder2\" />
+    <Folder Include="Files\RootFolder\NewFolder3\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
