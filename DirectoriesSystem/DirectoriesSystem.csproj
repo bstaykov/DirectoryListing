@@ -113,6 +113,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Files\RootFolder\Class1.cs" />
     <Compile Include="Files\RootFolder\Class2.cs" />
+    <Compile Include="Files\RootFolder\Class3.cs" />
     <Compile Include="Files\RootFolder\NewFolder1\Class1.cs" />
     <Compile Include="Files\RootFolder\NewFolder1\NewFolder1\Class1.cs" />
     <Compile Include="Global.asax.cs">
