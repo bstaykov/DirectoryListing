@@ -18,10 +18,10 @@
             {
                 if (Directory.Exists(relativePath))
                 {
-                    string[] files;
-                    string[] directories;
+                    FileViewModel[] files;
+                    DirectoryViewModel[] directories;
 
-                    ExtractPaths(relativePath, out files, out directories);
+                    this.ExtractPathsInformation(relativePath, out files, out directories);
 
                     var browseViewModel = new BrowseViewModel()
                     {
@@ -57,6 +57,38 @@
             for (int i = 0; i < directories.Length; i++)
             {
                 directories[i] = fullDirectoriesPaths[i].Substring(fullDirectoriesPaths[i].IndexOf(RelativePath) + RelativePath.Length);
+            }
+        }
+
+        private void ExtractPathsInformation(string relativePath, out FileViewModel[] filesViewModels, out DirectoryViewModel[] directoriesViewModels)
+        {
+            DirectoryInfo directory = new DirectoryInfo(relativePath);
+            FileInfo[] filesInfo = directory.GetFiles();
+            int filesCount = filesInfo.Length;
+            filesViewModels = new FileViewModel[filesCount];
+            for (int i = 0; i < filesCount; i++)
+            {
+                FileViewModel currentFileInfo = new FileViewModel()
+                {
+                    Name = filesInfo[i].Name,
+                    ModifiedOn = filesInfo[i].LastWriteTime,
+                    Size = filesInfo[i].Length.ToString(),
+                };
+                filesViewModels[i] = currentFileInfo;
+            }
+
+            DirectoryInfo[] directoriesInfo = directory.GetDirectories();
+            int directoriesCount = directoriesInfo.Length;
+            directoriesViewModels = new DirectoryViewModel[directoriesCount];
+            for (int i = 0; i < directoriesCount; i++)
+            {
+                DirectoryViewModel currentDirectoryInfo = new DirectoryViewModel()
+                {
+                    Name = directoriesInfo[i].Name,
+                    ModifiedOn = directoriesInfo[i].LastWriteTime,
+                };
+
+                directoriesViewModels[i] = currentDirectoryInfo;
             }
         }
     }

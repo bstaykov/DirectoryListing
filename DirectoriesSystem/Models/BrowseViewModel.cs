@@ -2,9 +2,9 @@
 {
     public class BrowseViewModel
     {
-        public string[] Files { get; set; }
+        public FileViewModel[] Files { get; set; }
 
-        public string[] Directories { get; set; }
+        public DirectoryViewModel[] Directories { get; set; }
 
         public string ParentDirectory { get; set; }
     }

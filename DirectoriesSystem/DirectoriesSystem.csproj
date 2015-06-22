@@ -119,6 +119,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BrowseViewModel.cs" />
+    <Compile Include="Models\DirectoryViewModel.cs" />
+    <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
