@@ -118,6 +118,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BrowseViewModel.cs" />
+    <Compile Include="Models\DirectoryInputModel.cs" />
     <Compile Include="Models\DirectoryViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +171,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_AddDirectory.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DirectoryInputModel.cshtml" />
+    <Content Include="Views\Shared\_NewDirectoryInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -185,6 +189,7 @@
     <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder2\NewFolder1\" />
     <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder2\NewFolder3\NewFolder1\" />
     <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder3\NewFolder1\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,0 +1,39 @@
+﻿@using DirectoriesSystem.Models
+
+@model DirectoryInputModel
+
+@using (Ajax.BeginForm("AddDirectory", "Home", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = "newDirectories",
+                LoadingElementId = "modalProgressBar",
+                HttpMethod = "POST",
+                OnSuccess = "$(window).trigger('resize');",
+            },
+            new { id = "addDirectoryForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Directory Name:</h4>
+            </div>
+            <div class="modal-body">
+                @Html.HiddenFor(model => model.CurrentDirectory)
+                <div>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "alert-warning" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn" value="Add directory"/>
+            </div>
+        </div>
+    </div>
+}

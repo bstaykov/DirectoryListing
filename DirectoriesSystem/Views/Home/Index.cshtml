@@ -49,7 +49,6 @@
                 <td></td>
                 <td>-</td>
             </tr>
-
             @{
                 foreach (var directory in @Model.Directories)
                 {
@@ -78,6 +77,9 @@
                         <td>-</td>
                     </tr>
                 }
+                <tr id="newDirectories">
+
+                </tr>
 
                 foreach (var file in @Model.Files)
                 {
@@ -86,7 +88,6 @@
                     <tr id="@id">
                         <td>
                             @file.Name
-
                             <button type="button" class="btn btn-default" aria-label="Left Align" title="Delete File">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </button>
@@ -101,13 +102,24 @@
                         <td>@file.Size</td>
                     </tr>
                 }
-            }
+                <tr id="newFiles">
+                </tr>
+}
         </table>
     </div>
 </div>
 
 <button type="button" class="btn btn-default" title="Create Directory">
-    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+    @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @Model.CurrentDirectory },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContent",
+                            LoadingElementId = "modalProgressBar",
+                            OnBegin = "$('#modalContent').empty()",
+                            HttpMethod = "Get",
+                        },
+                        new { Title = "Add Directory", @class = "glyphicon glyphicon-folder-open", data_toggle = "modal", data_target = "#modalWindow" })
 </button>
 
 <button type="button" class="btn btn-default" aria-label="Left Align" title="Upload File">

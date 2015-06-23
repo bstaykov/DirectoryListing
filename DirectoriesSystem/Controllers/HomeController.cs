@@ -59,6 +59,51 @@
             return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
+        [HttpGet]
+        public ActionResult AddDirectory(string currentDirectory)
+        {
+            if (currentDirectory == null)
+            {
+                currentDirectory = string.Empty;
+            }
+
+            string fullPath = Server.MapPath("~" + RelativePath + currentDirectory);
+
+            if (Directory.Exists(fullPath))
+            {
+                return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = currentDirectory, Name = "NewFolder" });
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDirectory(DirectoryInputModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return this.PartialView("_AddDirectory", model);
+            }
+
+            string fullPath = Server.MapPath("~" + RelativePath + model.CurrentDirectory + "\\" + model.Name);
+
+            if (Directory.Exists(fullPath))
+            {
+                ModelState.AddModelError(string.Empty, "Error! Directory name duplicates!");
+                return this.PartialView("_AddDirectory", model);
+            }
+
+            DirectoryInfo newDirectory = Directory.CreateDirectory(fullPath);
+
+            if (newDirectory == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+            }
+
+            return this.PartialView("_NewDirectoryInfo", newDirectory);
+        }
+
         private void ExtractPathsInformation(string relativePath, out FileViewModel[] filesViewModels, out DirectoryViewModel[] directoriesViewModels)
         {
             DirectoryInfo directory = new DirectoryInfo(relativePath);

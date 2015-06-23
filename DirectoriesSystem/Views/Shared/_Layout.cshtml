@@ -21,6 +21,16 @@
             </div>
         </div>
     </div>
+    <div id="modalWindow" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div id="modalContent"></div>
+            <div class="progress progressBar" id="modalProgressBar">
+                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="10" style="width: 75%">
+                    <span class="sr-only">75% Complete (info)</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />

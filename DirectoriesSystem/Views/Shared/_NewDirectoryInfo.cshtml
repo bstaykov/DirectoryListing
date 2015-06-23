@@ -1,0 +1,23 @@
+﻿@model DirectoryInfo
+@{
+    var id = "freshAddedDir" + @Model.Name;
+    var directory = @Model.FullName.Substring(@Model.FullName.IndexOf(@"\Files\RootFolder\") + 18);
+}
+<tr id="@id">
+    <td>
+        @Html.ActionLink(" " + @Model.Name, "Index",
+                                new { directory = @directory },
+                                htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
+        @Ajax.ActionLink("Delete", "DeleteDirectory",
+                                    new { directory = @directory },
+                                    new AjaxOptions
+                                    {
+                                        OnSuccess = "$(" + @id + ").remove();",
+                                    },
+                                    htmlAttributes: new { @class = "glyphicon glyphicon-trash", title = "Delete Directory" })
+        <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Directory Name">@Ajax.ActionLink("Edit", "", null)</span>
+    </td>
+    <td>@Model.CreationTime</td>
+    <td>-</td>
+</tr>
+<tr id="newDirectories"></tr>
