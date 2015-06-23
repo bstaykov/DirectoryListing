@@ -98,10 +98,66 @@
 
             if (newDirectory == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+                ModelState.AddModelError(string.Empty, "Error! Directory was not added!");
+                return this.PartialView("_AddDirectory", model);
             }
 
             return this.PartialView("_NewDirectoryInfo", newDirectory);
+        }
+
+        [HttpGet]
+        public ActionResult RenameDirectory(string directory)
+        {
+            if (directory == null || directory == string.Empty)
+            {
+                return null;
+            }
+
+            string fullPath = Server.MapPath("~" + RelativePath + directory);
+
+            if (Directory.Exists(fullPath))
+            {
+                DirectoryInfo currentDirectory = new DirectoryInfo(fullPath);
+
+                return this.PartialView("_EditDirectory", new DirectoryEditInputModel() { Name = currentDirectory.Name, ModifiedOn = currentDirectory.LastWriteTime, FullPath = directory });
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RenameDirectory(DirectoryEditInputModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return this.PartialView("_EditDirectory", model);
+            }
+
+            string fullPath = Server.MapPath("~" + RelativePath + model.FullPath);
+
+            if (Directory.Exists(fullPath))
+            {
+                string newDirectory = fullPath.Substring(0, fullPath.LastIndexOf("\\") + 1) + model.Name;
+                if (Directory.Exists(newDirectory))
+                {
+                    ModelState.AddModelError(string.Empty, "Error! Directory name duplicates!");
+                    return this.PartialView("_EditDirectory", model);
+                }
+
+                Directory.Move(fullPath, newDirectory);
+                DirectoryInfo newDirectoryInfo = new DirectoryInfo(newDirectory);
+                if (newDirectoryInfo == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Error! Directory was not moved!");
+                    return this.PartialView("_EditDirectory", model);
+                }
+
+                return this.PartialView("_NewDirectoryInfo", newDirectoryInfo);
+            }
+
+            ModelState.AddModelError(string.Empty, "Error! Directory is missing!");
+            return this.PartialView("_EditDirectory", model);
         }
 
         private void ExtractPathsInformation(string relativePath, out FileViewModel[] filesViewModels, out DirectoryViewModel[] directoriesViewModels)

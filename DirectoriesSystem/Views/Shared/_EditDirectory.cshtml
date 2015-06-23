@@ -1,0 +1,11 @@
+﻿@using DirectoriesSystem.Models
+
+@model DirectoryEditInputModel
+
+@Html.EditorForModel(@Model)
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#addDirectoryForm");
+    });
+</script>

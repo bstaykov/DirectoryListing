@@ -1,0 +1,7 @@
+﻿@Ajax.ActionLink("Delete", "DeleteDirectory",
+    new { directory = ViewBag.directory },
+    new AjaxOptions
+    {
+        OnSuccess = "$(" + ViewBag.id + ").remove();",
+    },
+    htmlAttributes: new { @class = "glyphicon glyphicon-trash", title = "Delete Directory" })

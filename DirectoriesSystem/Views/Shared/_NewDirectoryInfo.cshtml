@@ -8,14 +8,8 @@
         @Html.ActionLink(" " + @Model.Name, "Index",
                                 new { directory = @directory },
                                 htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
-        @Ajax.ActionLink("Delete", "DeleteDirectory",
-                                    new { directory = @directory },
-                                    new AjaxOptions
-                                    {
-                                        OnSuccess = "$(" + @id + ").remove();",
-                                    },
-                                    htmlAttributes: new { @class = "glyphicon glyphicon-trash", title = "Delete Directory" })
-        <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Directory Name">@Ajax.ActionLink("Edit", "", null)</span>
+        @Html.Partial("_DeleteDirectoryLink", new ViewDataDictionary { { "id", @id }, { "directory", @directory } })
+        @Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory } })
     </td>
     <td>@Model.CreationTime</td>
     <td>-</td>

@@ -1,0 +1,10 @@
+﻿@Ajax.ActionLink("Rename", "RenameDirectory",
+                                        new { directory = ViewBag.directory },
+                                    new AjaxOptions
+                                    {
+                                        InsertionMode = InsertionMode.ReplaceWith,
+                                        UpdateTargetId = ViewBag.updateTargetId,
+                                        LoadingElementId = "progressBar",
+                                        HttpMethod = "Get",
+                                    },
+                                    htmlAttributes: new { @class = "glyphicon glyphicon-edit", title = "Rename Directory" })

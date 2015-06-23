@@ -1,28 +1,31 @@
 ﻿@using DirectoriesSystem.Models
 
-@model DirectoryInputModel
+@model DirectoryEditInputModel
 
-<tr id="newDirectories">
+@{
+    var id = "edit" + @Model.Name;
+}
+
+<tr id=@id>
     <td>
-        @using (Ajax.BeginForm("AddDirectory", "Home", null,
+        @using (Ajax.BeginForm("RenameDirectory", "Home", null,
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.ReplaceWith,
-                UpdateTargetId = "newDirectories",
+                UpdateTargetId = @id,
                 LoadingElementId = "progressBar",
                 HttpMethod = "POST",
             },
-            new { id = "addDirectoryForm" }))
+            new { id = "editDirectoryForm" }))
         {
-            @Html.HiddenFor(model => model.CurrentDirectory)
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
-
+            @Html.HiddenFor(model => model.FullPath)
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Name, null, new { @class = "alert-warning" })
-            <input type="submit" class="btn" value="Add directory" />
+            <input type="submit" class="btn" value="Rename" />
         }
     </td>
-    <td>-</td>
+    <td>@Model.ModifiedOn</td>
     <td>-</td>
 </tr>

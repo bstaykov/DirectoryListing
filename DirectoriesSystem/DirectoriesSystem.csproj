@@ -111,13 +111,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Files\RootFolder\Class1.cs" />
-    <Compile Include="Files\RootFolder\Class2.cs" />
-    <Compile Include="Files\RootFolder\Class3.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BrowseViewModel.cs" />
+    <Compile Include="Models\DirectoryEditInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\DirectoryInputModel.cs" />
     <Compile Include="Models\DirectoryViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
@@ -159,6 +159,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\EditorTemplates\DirectoryEditInputModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -174,21 +177,13 @@
     <Content Include="Views\Shared\_AddDirectory.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DirectoryInputModel.cshtml" />
     <Content Include="Views\Shared\_NewDirectoryInfo.cshtml" />
+    <Content Include="Views\Shared\_EditDirectory.cshtml" />
+    <Content Include="Views\Shared\_EditDirectoryLink.cshtml" />
+    <Content Include="Views\Shared\_DeleteDirectoryLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder1\NewFolder2\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder1\NewFolder2\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder1\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder2\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder2\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder1\NewFolder1\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder1\NewFolder2\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder1\NewFolder2\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder1\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder2\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder2\NewFolder3\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder1\NewFolder3\NewFolder1\" />
+    <Folder Include="Files\RootFolder\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
