@@ -7,5 +7,7 @@
         public DirectoryViewModel[] Directories { get; set; }
 
         public string ParentDirectory { get; set; }
+
+        public string CurrentDirectory { get; set; }
     }
 }

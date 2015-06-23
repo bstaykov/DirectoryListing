@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Net;
     using System.Web.Mvc;
 
     using DirectoriesSystem.Models;
@@ -9,25 +10,28 @@
     public class HomeController : Controller
     {
         private const string RelativePath = @"\Files\RootFolder\";
+        private const int RelativePathLength = 18;
 
-        public ActionResult Index(string parentDirectory)
+        public ActionResult Index(string directory)
         {
             string relativePath = Server.MapPath("~" + RelativePath);
+            string fullPath = relativePath + directory;
 
             try
             {
-                if (Directory.Exists(relativePath))
+                if (Directory.Exists(fullPath))
                 {
                     FileViewModel[] files;
                     DirectoryViewModel[] directories;
 
-                    this.ExtractPathsInformation(relativePath, out files, out directories);
+                    this.ExtractPathsInformation(fullPath, out files, out directories);
 
                     var browseViewModel = new BrowseViewModel()
                     {
                         Files = files,
                         Directories = directories,
-                        ParentDirectory = parentDirectory,
+                        ParentDirectory = this.GetParentDirectory(directory),
+                        CurrentDirectory = directory,
                     };
 
                     return this.View(browseViewModel);
@@ -41,23 +45,18 @@
             return this.View();
         }
 
-        private void ExtractPaths(string relativePath, out string[] files, out string[] directories)
+        public ActionResult DeleteDirectory(string directory)
         {
-            string[] fullFilesPaths = Directory.GetFiles(relativePath);
-            string[] fullDirectoriesPaths = Directory.GetDirectories(relativePath);
+            string fullPath = Server.MapPath("~" + RelativePath + directory);
 
-            files = new string[fullFilesPaths.Length];
-            directories = new string[fullDirectoriesPaths.Length];
-
-            for (int i = 0; i < files.Length; i++)
+            if (Directory.Exists(fullPath))
             {
-                files[i] = fullFilesPaths[i].Substring(fullFilesPaths[i].IndexOf(RelativePath) + RelativePath.Length);
+                Directory.Delete(fullPath, true);
+
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
 
-            for (int i = 0; i < directories.Length; i++)
-            {
-                directories[i] = fullDirectoriesPaths[i].Substring(fullDirectoriesPaths[i].IndexOf(RelativePath) + RelativePath.Length);
-            }
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
         private void ExtractPathsInformation(string relativePath, out FileViewModel[] filesViewModels, out DirectoryViewModel[] directoriesViewModels)
@@ -68,8 +67,12 @@
             filesViewModels = new FileViewModel[filesCount];
             for (int i = 0; i < filesCount; i++)
             {
+                var fullPath = filesInfo[i].FullName;
+                var path = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
+
                 FileViewModel currentFileInfo = new FileViewModel()
                 {
+                    FullPath = path,
                     Name = filesInfo[i].Name,
                     ModifiedOn = filesInfo[i].LastWriteTime,
                     Size = filesInfo[i].Length.ToString(),
@@ -82,13 +85,36 @@
             directoriesViewModels = new DirectoryViewModel[directoriesCount];
             for (int i = 0; i < directoriesCount; i++)
             {
+                var fullPath = directoriesInfo[i].FullName;
+                var path = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
+
                 DirectoryViewModel currentDirectoryInfo = new DirectoryViewModel()
                 {
+                    FullPath = path,
                     Name = directoriesInfo[i].Name,
                     ModifiedOn = directoriesInfo[i].LastWriteTime,
                 };
 
                 directoriesViewModels[i] = currentDirectoryInfo;
+            }
+        }
+
+        private string GetParentDirectory(string directory)
+        {
+            if (directory == null)
+            {
+                return null;
+            }
+            else
+            {
+                int parentDirectoryEndIndex = directory.LastIndexOf("\\");
+                if (parentDirectoryEndIndex == -1)
+                {
+                    return string.Empty;
+                }
+
+                string parentDirectory = directory.Substring(0, directory.LastIndexOf("\\"));
+                return parentDirectory;
             }
         }
     }

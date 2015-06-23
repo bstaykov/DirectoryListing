@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Directories";
+    var idCounter = 0;
 }
 
 <div class="">
@@ -30,50 +31,49 @@
                         {
                             <ul class="nav nav-pills">
                                 <li role="presentation" class="disabled">
-                                    @Ajax.ActionLink(" Parent Directory",
-                                        "Index",
-                                        null,
-                                        new AjaxOptions
-                                        {
-
-                                        },
-                                        htmlAttributes: new
-                                        {
-                                            @class = "glyphicon glyphicon-folder-open ",
-                                            Title = "Parent Directory"
-                                        })
+                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"><a href="#"></a> ...</span>
                                 </li>
                             </ul>
                         }
                         else
                         {
-                            @Ajax.ActionLink(" Parent Directory",
-                                "Index",
-                                null,
-                                new AjaxOptions
-                                {
-
-                                },
-                                htmlAttributes: new
-                                {
-                                    @class = "glyphicon glyphicon-folder-open ",
-                                    Title = "Parent Directory"
-                                })
+                            @Html.ActionLink(" " + @Model.CurrentDirectory, "Index",
+                                        new { directory = @Model.ParentDirectory },
+                                        htmlAttributes: new { @class = "glyphicon glyphicon-folder-open", Title = "Close Directory" })
                         }
+                        @*@Ajax.ActionLink(" Parent Directory", "Index", null,
+                            new AjaxOptions { },
+                            htmlAttributes: new { @class = "glyphicon glyphicon-folder-open ", Title = "Parent Directory" })*@
                     </div>
                 </td>
-                <td></td><td>-</td>
+                <td></td>
+                <td>-</td>
             </tr>
 
             @{
                 foreach (var directory in @Model.Directories)
                 {
-                    <tr>
+                    var id = "dir" + idCounter++;
+                    <tr id="@id">
                         <td>
-                            <span class="glyphicon glyphicon-folder-close" aria-hidden="true" title="Open Directory"></span> @Ajax.ActionLink(@directory.Name, "", null)
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Delete Directory">@Ajax.ActionLink("Delete", "", null)</span>
+                            @Html.ActionLink(" " + @directory.Name, "Index",
+                                new { directory = @directory.FullPath },
+                                htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
+                            @*@Ajax.ActionLink(@directory.Name, "Index", new { parentDirectory = @directory.FullPath },
+                                new AjaxOptions { },
+                                htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })*@
+                            @Ajax.ActionLink("Delete", "DeleteDirectory",
+                                    new { directory = @directory.FullPath },
+                                    new AjaxOptions
+                                    {
+                                        OnSuccess = "$(" + @id + ").remove();",
+                                    },
+                                    htmlAttributes: new { @class = "glyphicon glyphicon-trash", title = "Delete Directory" })
                             <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Directory Name">@Ajax.ActionLink("Edit", "", null)</span>
                         </td>
+
+
+
                         <td>@directory.ModifiedOn</td>
                         <td>-</td>
                     </tr>
@@ -81,7 +81,9 @@
 
                 foreach (var file in @Model.Files)
                 {
-                    <tr>
+                    var id = "file" + idCounter++;
+                    
+                    <tr id="@id">
                         <td>
                             @file.Name
 
