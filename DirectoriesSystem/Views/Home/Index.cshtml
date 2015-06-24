@@ -7,7 +7,7 @@
     var idCounter = 0;
 }
 
-<div class="">
+@*<div class="">
     <div id="content">
 
         <table class="table table-bordered">
@@ -41,9 +41,6 @@
                                         new { directory = @Model.ParentDirectory },
                                         htmlAttributes: new { @class = "glyphicon glyphicon-folder-open", Title = "Close Directory" })
                         }
-                        @*@Ajax.ActionLink(" Parent Directory", "Index", null,
-                            new AjaxOptions { },
-                            htmlAttributes: new { @class = "glyphicon glyphicon-folder-open ", Title = "Parent Directory" })*@
                     </div>
                 </td>
                 <td></td>
@@ -58,27 +55,9 @@
                             @Html.ActionLink(" " + @directory.Name, "Index",
                                 new { directory = @directory.FullPath },
                                 htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
-                            @*@Ajax.ActionLink(@directory.Name, "Index", new { parentDirectory = @directory.FullPath },
-            new AjaxOptions { },
-            htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })*@
-                            @*@Ajax.ActionLink("Delete", "DeleteDirectory",
-                                    new { directory = @directory.FullPath },
-                                    new AjaxOptions
-                                    {
-                                        OnSuccess = "$(" + @id + ").remove();",
-                                    },
-                                    htmlAttributes: new { @class = "glyphicon glyphicon-trash", title = "Delete Directory" })*@
+                            
                             @Html.Partial("_DeleteDirectoryLink", new ViewDataDictionary { { "id", @id }, { "directory", @directory.FullPath } })
-                            @*@Ajax.ActionLink("Rename", "RenameDirectory",
-                                    new { directory = @directory.FullPath },
-                                    new AjaxOptions
-                                    {
-                                        InsertionMode = InsertionMode.ReplaceWith,
-                                        UpdateTargetId = @id,
-                                        LoadingElementId = "progressBar",
-                                        HttpMethod = "Get",
-                                    },
-                                    htmlAttributes: new { @class = "glyphicon glyphicon-edit", title = "Rename Directory" })*@
+                            
                             @Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory.FullPath } })
                         </td>
                         <td>@directory.ModifiedOn</td>
@@ -114,9 +93,9 @@
 }
         </table>
     </div>
-</div>
+</div>*@
 
-<button type="button" class="btn btn-default" title="Create Directory">
+@*<button type="button" class="btn btn-default" title="Create Directory">
     @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @Model.CurrentDirectory },
                         new AjaxOptions
                         {
@@ -130,4 +109,4 @@
 
 <button type="button" class="btn btn-default" aria-label="Left Align" title="Upload File">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-</button>
+</button>*@
