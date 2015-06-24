@@ -71,17 +71,20 @@
         {
             if (currentDirectory == null)
             {
-                currentDirectory = string.Empty;
+                string fullPath = Server.MapPath("~" + RelativePath);
+                return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = string.Empty, Name = "NewFolder" });
             }
-
-            string fullPath = Server.MapPath("~" + RelativePath + "\\" + currentDirectory);
-
-            if (Directory.Exists(fullPath))
+            else
             {
-                return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = currentDirectory, Name = "NewFolder" });
-            }
+                string fullPath = Server.MapPath("~" + RelativePath + "\\" + currentDirectory);
 
-            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                if (Directory.Exists(fullPath))
+                {
+                    return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = currentDirectory, Name = "NewFolder" });
+                }
+
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
         }
 
         [HttpPost]
