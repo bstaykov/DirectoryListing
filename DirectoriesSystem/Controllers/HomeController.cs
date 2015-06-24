@@ -14,7 +14,8 @@
 
         public ActionResult Index(string directory)
         {
-            string relativePath = Server.MapPath("~" + RelativePath);
+            string relativePath = Server.MapPath(@"~\Files\RootFolder\");
+            //string relativePath = Server.MapPath("~" + RelativePath);
             string fullPath = relativePath + directory;
 
             try
