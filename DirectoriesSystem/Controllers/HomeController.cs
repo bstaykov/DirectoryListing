@@ -14,6 +14,8 @@
 
         public ActionResult Index(string directory = "")
         {
+            this.TempData["error"] = "ERRORRRRRRR";
+
             string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
 
             // TODO DELETE
