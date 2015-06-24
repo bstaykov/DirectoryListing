@@ -3,6 +3,8 @@
     using System;
     using System.IO;
     using System.Net;
+    using System.Net.Mime;
+    using System.Web;
     using System.Web.Mvc;
 
     using DirectoriesSystem.Models;
@@ -188,6 +190,20 @@
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
+
+        [HttpGet]
+        public ActionResult DownloadFile(string filePath, string fileName)
+        {
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + filePath);
+
+            // string fileName = Path.GetFileName(fullPath);
+            string contentType = MimeMapping.GetMimeMapping(fileName);
+            Response.ContentType = contentType;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+            // Response.TransmitFile(fullPath);
+            return this.File(fullPath, contentType);
         }
 
         public ActionResult RenameFile(string filePath)

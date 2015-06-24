@@ -99,13 +99,11 @@
 
                         @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", @file.FullPath } })
 
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit File">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Download File">
-                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                        </button>
+                        @Html.ActionLink(" Download", "DownloadFile", "Home",
+                            routeValues: new { filePath = @file.FullPath, fileName = @file.Name },
+                            htmlAttributes: new { Title = "Download File", @class = "glyphicon glyphicon-download" })
                     </td>
+
                     <td>@file.ModifiedOn</td>
                     <td>@file.Size</td>
                 </tr>
@@ -127,8 +125,7 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <button type="button" class="btn btn-default" title="Create Directory">
-            @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @currentDirectory },
+        @Ajax.ActionLink(" Add Directory", "AddDirectory", "Home", new { currentDirectory = @currentDirectory },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.ReplaceWith,
@@ -137,18 +134,30 @@
                             HttpMethod = "Get",
                         },
                         new { Title = "Add Directory", @class = "glyphicon glyphicon-folder-open" })
-        </button>
+
+        @*<button type="button" class="btn btn-default" title="Create Directory">
+                @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @currentDirectory },
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.ReplaceWith,
+                                UpdateTargetId = "newDirectories",
+                                LoadingElementId = "progressBar",
+                                HttpMethod = "Get",
+                            },
+                            new { Title = "Add Directory", @class = "glyphicon glyphicon-folder-open" })
+            </button>*@
+
         @*<button type="button" class="btn btn-default" title="Add File">
-            @Ajax.ActionLink(" ", "AddFile", "Home", new { currentDirectory = @currentDirectory },
-                        new AjaxOptions
-                        {
-                            InsertionMode = InsertionMode.ReplaceWith,
-                            UpdateTargetId = "newFiles",
-                            LoadingElementId = "progressBar",
-                            HttpMethod = "Get",
-                        },
-                        new { Title = "Add File", @class = "glyphicon glyphicon-upload" })
-        </button>*@
+                @Ajax.ActionLink(" ", "AddFile", "Home", new { currentDirectory = @currentDirectory },
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.ReplaceWith,
+                                UpdateTargetId = "newFiles",
+                                LoadingElementId = "progressBar",
+                                HttpMethod = "Get",
+                            },
+                            new { Title = "Add File", @class = "glyphicon glyphicon-upload" })
+            </button>*@
     </div>
 </div>
 <hr />
@@ -166,7 +175,6 @@
                         <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
                     </button>
                     <input type="file" name="file" id="fileToCheck" onchange="return checkFileSize('fileToCheck', 2048000)">
-                    
                 </div>
             </div>
         }
