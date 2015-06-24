@@ -7,95 +7,117 @@
     var idCounter = 0;
 }
 
-@*<div class="">
+<div class="">
     <div id="content">
+        @if (@Model == null)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Last Modified
+                        </th>
+                        <th>
+                            Size
+                        </th>
+                    </tr>
+                </thead>
+                <tr id="newDirectories"></tr>
 
-        <table class="table table-bordered">
-            <thead>
+
+                <tr id="newFiles"></tr>
+            </table>
+        }
+        else
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Last Modified
+                        </th>
+                        <th>
+                            Size
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Last Modified
-                    </th>
-                    <th>
-                        Size
-                    </th>
-                </tr>
-            </thead>
-            <tr>
-                <td>
-                    <div class="col-lg-12">
-                        @if (@Model.CurrentDirectory == null || @Model.CurrentDirectory == string.Empty)
-                        {
-                            <ul class="nav nav-pills">
-                                <li role="presentation" class="disabled">
-                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"><a href="#"></a> ...</span>
-                                </li>
-                            </ul>
-                        }
-                        else
-                        {
-                            @Html.ActionLink(" " + @Model.CurrentDirectory, "Index",
+                    <td>
+                        <div class="col-lg-12">
+                            @if (@Model.CurrentDirectory == null || @Model.CurrentDirectory == string.Empty)
+                            {
+                                <ul class="nav nav-pills">
+                                    <li role="presentation" class="disabled">
+                                        <span class="glyphicon glyphicon-folder-open" aria-hidden="true"><a href="#"></a> ...</span>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                @Html.ActionLink(" " + @Model.CurrentDirectory, "Index",
                                         new { directory = @Model.ParentDirectory },
                                         htmlAttributes: new { @class = "glyphicon glyphicon-folder-open", Title = "Close Directory" })
-                        }
-                    </div>
-                </td>
-                <td></td>
-                <td>-</td>
-            </tr>
-            @{
-                foreach (var directory in @Model.Directories)
-                {
-                    var id = "dir" + idCounter++;
-                    <tr id="@id">
-                        <td>
-                            @Html.ActionLink(" " + @directory.Name, "Index",
+                            }
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>-</td>
+                </tr>
+                @{
+            foreach (var directory in @Model.Directories)
+            {
+                var id = "dir" + idCounter++;
+                <tr id="@id">
+                    <td>
+                        @Html.ActionLink(" " + @directory.Name, "Index",
                                 new { directory = @directory.FullPath },
                                 htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
-                            
-                            @Html.Partial("_DeleteDirectoryLink", new ViewDataDictionary { { "id", @id }, { "directory", @directory.FullPath } })
-                            
-                            @Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory.FullPath } })
-                        </td>
-                        <td>@directory.ModifiedOn</td>
-                        <td>-</td>
-                    </tr>
-                }
-                <tr id="newDirectories">
-                </tr>
 
-                foreach (var file in @Model.Files)
-                {
-                    var id = "file" + idCounter++;
-                    
-                    <tr id="@id">
-                        <td>
-                            @file.Name
-                            <button type="button" class="btn btn-default" aria-label="Left Align" title="Delete File">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit File">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default" aria-label="Left Align" title="Download File">
-                                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                            </button>
-                        </td>
-                        <td>@file.ModifiedOn</td>
-                        <td>@file.Size</td>
-                    </tr>
-                }
-                <tr id="newFiles">
+                        @Html.Partial("_DeleteDirectoryLink", new ViewDataDictionary { { "id", @id }, { "directory", @directory.FullPath } })
+
+                        @Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory.FullPath } })
+                    </td>
+                    <td>@directory.ModifiedOn</td>
+                    <td>-</td>
                 </tr>
-}
-        </table>
+            }
+            <tr id="newDirectories"></tr>
+
+            foreach (var file in @Model.Files)
+            {
+                var id = "file" + idCounter++;
+
+                <tr id="@id">
+                    <td>
+                        @file.Name
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Delete File">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit File">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Download File">
+                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <td>@file.ModifiedOn</td>
+                    <td>@file.Size</td>
+                </tr>
+            }
+            <tr id="newFiles"></tr>
+                }
+            </table>
+        }
     </div>
-</div>*@
+</div>
 
-@*<button type="button" class="btn btn-default" title="Create Directory">
+<button type="button" class="btn btn-default" title="Create Directory">
     @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @Model.CurrentDirectory },
                         new AjaxOptions
                         {
@@ -109,4 +131,4 @@
 
 <button type="button" class="btn btn-default" aria-label="Left Align" title="Upload File">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-</button>*@
+</button>
