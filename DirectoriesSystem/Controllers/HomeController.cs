@@ -19,13 +19,13 @@
             // TODO DELETE
             if (directory == null)
             {
-                this.TempData["error"] = this.TempData["error"] + " directory IS NULL ";
+                this.TempData["error"] = "directory IS NULL ";
             }
 
             // TODO DELETE
             if (relativePath == null)
             {
-                this.TempData["error"] = this.TempData["error"] + " relativePath IS NULL ";
+                this.TempData["error"] = "relativePath IS NULL ";
             }
 
             //string relativePath = Server.MapPath("~" + RelativePath);
@@ -34,7 +34,7 @@
             // TODO DELETE
             if (fullPath == null)
             {
-                this.TempData["error"] = this.TempData["error"] + " fullPath IS NULL ";
+                this.TempData["error"] = "fullPath IS NULL ";
             }
 
             try
@@ -49,17 +49,17 @@
                     // TODO DELETE
                     if (files == null)
                     {
-                        this.TempData["error"] = this.TempData["error"] + " files IS NULL ";
+                        this.TempData["error"] = "files IS NULL ";
                     }
                     // TODO DELETE
                     if (directories == null)
                     {
-                        this.TempData["error"] = this.TempData["error"] + " directories IS NULL ";
+                        this.TempData["error"] = "directories IS NULL ";
                     }
                     // TODO DELETE
                     if (this.GetParentDirectory(directory) == null)
                     {
-                        this.TempData["error"] = this.TempData["error"] + " this.GetParentDirectory(directory) IS NULL ";
+                        this.TempData["error"] = "this.GetParentDirectory(directory) IS NULL ";
                     }
 
                     var browseViewModel = new BrowseViewModel()
@@ -73,7 +73,7 @@
                     // TODO DELETE
                     if (browseViewModel == null)
                     {
-                        this.TempData["error"] = this.TempData["error"] + " browseViewModel IS NULL ";
+                        this.TempData["error"] = "browseViewModel IS NULL ";
                     }
 
                     return this.View(browseViewModel);
@@ -82,7 +82,7 @@
             catch (Exception)
             {
                 // TODO DELETE 
-                this.TempData["error"] = this.TempData["error"] + " EXCEPTION ";
+                this.TempData["error"] = "EXCEPTION ";
 
                 return this.View("Error");
             }
@@ -257,7 +257,7 @@
                     // TODO DELETE 
                     if (parentDirectory == null)
                     {
-                        this.TempData["error"] = this.TempData["error"] + " parentDirectory IS NULL ";
+                        this.TempData["error"] = "parentDirectory IS NULL ";
                     }
 
                     return parentDirectory;
