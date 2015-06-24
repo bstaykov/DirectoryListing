@@ -8,7 +8,7 @@
         @*@Html.ActionLink(" " + @Model.Name, "Index",
                                 new { directory = @directory },
                                 htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })*@
-        @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", @file.FullPath } })
+        @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", directory } })
         @*@Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory } })*@
     </td>
     <td>@Model.CreationTime</td>
