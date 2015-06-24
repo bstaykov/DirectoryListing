@@ -1,0 +1,49 @@
+﻿@using DirectoriesSystem.Models
+
+@model FileInputModel
+
+<tr id="newFiles">
+    <td>
+        @using (Html.BeginForm("AddFile", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.CurrentDirectory)
+
+            <div class="form-group">
+                <div class="col-lg-4">
+                    <input type="file" name="file" id="fileToCheck" onchange="return checkFileSize('fileToCheck', 2048000)">
+                    <button type="submit" class="btn btn-danger" aria-label="Left Align" title="Upload File" onclick="return checkFileSize('fileToCheck', 2048000)">
+                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        }
+
+        @*@using (Ajax.BeginForm("AddFile", "Home", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = "newFiles",
+                LoadingElementId = "progressBar",
+                HttpMethod = "POST",
+            },
+            htmlAttributes: new { id = "addFileForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.CurrentDirectory)
+
+            <div class="form-group">
+                <div class="col-lg-4">
+                    <span class="btn btn-default btn-file">
+                        <input type="file" name="newFile" id="fileToCheck" onchange="return checkFileSize('fileToCheck', 2048000)">
+                    </span>
+                    <input type="submit" class="btn btn-default" value="Submit" title="Upload File" onclick="return checkFileSize('fileToCheck', 2048000)" />                    
+                </div>
+            </div>
+        }*@
+    </td>
+    <td>-</td>
+    <td>-</td>
+</tr>

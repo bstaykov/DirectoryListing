@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Models\DirectoryInputModel.cs" />
     <Compile Include="Models\DirectoryViewModel.cs" />
+    <Compile Include="Models\FileInputModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -142,6 +143,7 @@
     <Content Include="Icon.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\custom\custom.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
@@ -162,6 +164,12 @@
     <Content Include="Views\Shared\EditorTemplates\DirectoryEditInputModel.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\EditorTemplates\FileInputModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_DeleteFileLink.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -180,6 +188,8 @@
     <Content Include="Views\Shared\_EditDirectory.cshtml" />
     <Content Include="Views\Shared\_EditDirectoryLink.cshtml" />
     <Content Include="Views\Shared\_DeleteDirectoryLink.cshtml" />
+    <Content Include="Views\Shared\_AddFile.cshtml" />
+    <Content Include="Views\Shared\_NewFileInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

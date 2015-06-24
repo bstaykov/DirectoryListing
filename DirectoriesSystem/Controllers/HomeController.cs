@@ -70,8 +70,6 @@
         {
             if (currentDirectory == null)
             {
-                string fullPath = Server.MapPath("~" + RelativePath);
-
                 return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = string.Empty, Name = "NewFolder" });
             }
             else
@@ -113,6 +111,88 @@
             }
 
             return this.PartialView("_NewDirectoryInfo", newDirectory);
+        }
+
+        [HttpGet]
+        public ActionResult AddFile(string currentDirectory)
+        {
+            if (currentDirectory == null)
+            {
+                return this.PartialView("_AddFile", new FileInputModel() { CurrentDirectory = string.Empty });
+            }
+            else
+            {
+                string fullPath = Server.MapPath("~" + RelativePath + "\\" + currentDirectory);
+
+                if (Directory.Exists(fullPath))
+                {
+                    return this.PartialView("_AddFile", new FileInputModel() { CurrentDirectory = currentDirectory });
+                }
+
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFile(FileInputModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                this.TempData["fileUploadState"] = "Invalid file.";
+                return this.RedirectToAction("Index", routeValues: new { directory = model.CurrentDirectory });
+            }
+
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + model.CurrentDirectory);
+
+            if (Directory.Exists(fullPath) == false)
+            {
+                this.TempData["fileUploadState"] = "Invalid directory.";
+                return this.RedirectToAction("Index", routeValues: new { directory = model.CurrentDirectory });
+            }
+
+            string fileFullPath = fullPath + "\\" + model.File.FileName;
+            if (new FileInfo(fileFullPath).Exists == true)
+            {
+                this.TempData["fileUploadState"] = "File name exists!";
+                return this.RedirectToAction("Index", routeValues: new { directory = model.CurrentDirectory });
+            }
+
+            if (model.File.ContentLength <= 2048000)
+            {
+                model.File.SaveAs(fileFullPath);
+                FileInfo fileInfo = new FileInfo(fileFullPath);
+                if (fileInfo == null)
+                {
+                    this.TempData["fileUploadState"] = "Error! File was not saved!";
+                }
+            }
+            else
+            {
+                this.TempData["fileUploadState"] = "Error! File is to big!";
+            }
+
+            return this.RedirectToAction("Index", routeValues: new { directory = model.CurrentDirectory });
+        }
+
+        [HttpGet]
+        public ActionResult DeleteFile(string filePath)
+        {
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + filePath);
+            FileInfo fileInfo = new FileInfo(fullPath);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
+
+        public ActionResult RenameFile(string filePath)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpGet]

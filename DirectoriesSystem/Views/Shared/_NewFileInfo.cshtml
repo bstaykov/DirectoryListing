@@ -1,0 +1,17 @@
+﻿@model FileInfo
+@{
+    var id = "freshAddedFile" + @Model.Name;
+    var directory = @Model.FullName.Substring(@Model.FullName.IndexOf(@"\Files") + 6);
+}
+<tr id="@id">
+    <td>
+        @*@Html.ActionLink(" " + @Model.Name, "Index",
+                                new { directory = @directory },
+                                htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })*@
+        @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", @file.FullPath } })
+        @*@Html.Partial("_EditDirectoryLink", new ViewDataDictionary { { "updateTargetId", @id }, { "directory", @directory } })*@
+    </td>
+    <td>@Model.CreationTime</td>
+    <td>@Model.Length</td>
+</tr>
+<tr id="newFiles"></tr>
