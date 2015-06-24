@@ -9,7 +9,7 @@
 
     public class HomeController : Controller
     {
-        private const string RelativePath = "\\Files\\RootFolder\\";
+        private const string RelativePath = "\\Files\\RootFolder";
         private const int RelativePathLength = 18;
 
         public ActionResult Index(string directory = "")
@@ -17,7 +17,7 @@
             // TODO DELETE
             this.TempData["error"] = "ERROR1";
 
-            string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
+            string relativePath = Server.MapPath("~\\Files\\RootFolder");
 
             // TODO DELETE
             this.TempData["error"] = "ERROR2";
@@ -35,7 +35,7 @@
             }
 
             //string relativePath = Server.MapPath("~" + RelativePath);
-            string fullPath = relativePath + directory;
+            string fullPath = relativePath + "\\" + directory;
 
             // TODO DELETE
             this.TempData["error"] = "ERROR3";
@@ -109,7 +109,7 @@
 
         public ActionResult DeleteDirectory(string directory)
         {
-            string fullPath = Server.MapPath("~" + RelativePath + directory);
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + directory);
 
             if (Directory.Exists(fullPath))
             {
@@ -129,7 +129,7 @@
                 currentDirectory = string.Empty;
             }
 
-            string fullPath = Server.MapPath("~" + RelativePath + currentDirectory);
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + currentDirectory);
 
             if (Directory.Exists(fullPath))
             {
@@ -148,7 +148,7 @@
                 return this.PartialView("_AddDirectory", model);
             }
 
-            string fullPath = Server.MapPath("~" + RelativePath + model.CurrentDirectory + "\\" + model.Name);
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + model.CurrentDirectory + "\\" + model.Name);
 
             if (Directory.Exists(fullPath))
             {
@@ -175,7 +175,7 @@
                 return null;
             }
 
-            string fullPath = Server.MapPath("~" + RelativePath + directory);
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + directory);
 
             if (Directory.Exists(fullPath))
             {
@@ -196,7 +196,7 @@
                 return this.PartialView("_EditDirectory", model);
             }
 
-            string fullPath = Server.MapPath("~" + RelativePath + model.FullPath);
+            string fullPath = Server.MapPath("~" + RelativePath + "\\" + model.FullPath);
 
             if (Directory.Exists(fullPath))
             {
