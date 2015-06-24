@@ -102,7 +102,7 @@
             }
 
             // TODO DELETE
-            this.TempData["error"] = "NOT EXISTING DIRECTORY";
+            this.TempData["error"] = "NOT EXISTING DIRECTORY" + fullPath;
 
             return this.View();
         }
