@@ -9,14 +9,26 @@
 
     public class HomeController : Controller
     {
-        private const string RelativePath = @"\Files\RootFolder\";
+        private const string RelativePath = "\\Files\\RootFolder\\";
         private const int RelativePathLength = 18;
 
         public ActionResult Index(string directory)
         {
-            string relativePath = Server.MapPath(@"~\Files\RootFolder\");
+            string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
+
+            // TODO DELETE
+            if (relativePath == null)
+            {
+                this.TempData["error"] = this.TempData["error"] + " relativePath IS NULL ";
+            }
             //string relativePath = Server.MapPath("~" + RelativePath);
             string fullPath = relativePath + directory;
+
+            // TODO DELETE
+            if (fullPath == null)
+            {
+                this.TempData["error"] = this.TempData["error"] + " fullPath IS NULL ";
+            }
 
             try
             {
