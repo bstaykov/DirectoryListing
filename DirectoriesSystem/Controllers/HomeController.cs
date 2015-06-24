@@ -260,6 +260,13 @@
                 }
 
                 string parentDirectory = directory.Substring(0, directory.LastIndexOf("\\"));
+
+                // TODO DELETE
+                if (parentDirectory == null)
+                {
+                    this.TempData["error"] = this.TempData["error"] + " parentDirectory IS NULL ";
+                }
+
                 return parentDirectory;
             }
         }
