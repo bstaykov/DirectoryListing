@@ -14,9 +14,13 @@
 
         public ActionResult Index(string directory = "")
         {
-            this.TempData["error"] = "ERRORRRRRRR";
+            // TODO DELETE
+            this.TempData["error"] = "ERROR1";
 
             string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
+
+            // TODO DELETE
+            this.TempData["error"] = "ERROR2";
 
             // TODO DELETE
             if (directory == null)
@@ -34,6 +38,9 @@
             string fullPath = relativePath + directory;
 
             // TODO DELETE
+            this.TempData["error"] = "ERROR3";
+
+            // TODO DELETE
             if (fullPath == null)
             {
                 this.TempData["error"] = "fullPath IS NULL ";
@@ -47,6 +54,9 @@
                     DirectoryViewModel[] directories;
 
                     this.ExtractPathsInformation(fullPath, out files, out directories);
+
+                    // TODO DELETE
+                    this.TempData["error"] = "ERROR4";
 
                     // TODO DELETE
                     if (files == null)
@@ -73,6 +83,8 @@
                     };
 
                     // TODO DELETE
+                    this.TempData["error"] = "ERROR5";
+                    // TODO DELETE
                     if (browseViewModel == null)
                     {
                         this.TempData["error"] = "browseViewModel IS NULL ";
@@ -83,11 +95,14 @@
             }
             catch (Exception)
             {
-                // TODO DELETE 
-                this.TempData["error"] = "EXCEPTION ";
+                // TODO DELETE
+                this.TempData["error"] = "ERROR6";
 
                 return this.View("Error");
             }
+
+            // TODO DELETE
+            this.TempData["error"] = "NOT EXISTING DIRECTORY";
 
             return this.View();
         }
