@@ -17,10 +17,17 @@
             string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
 
             // TODO DELETE
+            if (directory == null)
+            {
+                this.TempData["error"] = this.TempData["error"] + " directory IS NULL ";
+            }
+
+            // TODO DELETE
             if (relativePath == null)
             {
                 this.TempData["error"] = this.TempData["error"] + " relativePath IS NULL ";
             }
+
             //string relativePath = Server.MapPath("~" + RelativePath);
             string fullPath = relativePath + directory;
 
@@ -39,6 +46,23 @@
 
                     this.ExtractPathsInformation(fullPath, out files, out directories);
 
+                    // TODO DELETE
+                    if (files == null)
+                    {
+                        this.TempData["error"] = this.TempData["error"] + " files IS NULL ";
+                    }
+                    // TODO DELETE
+                    if (directories == null)
+                    {
+                        this.TempData["error"] = this.TempData["error"] + " directories IS NULL ";
+                    }
+
+
+                    if (this.GetParentDirectory(directory) == null)
+                    {
+                        this.TempData["error"] = this.TempData["error"] + " this.GetParentDirectory(directory) IS NULL ";
+                    }
+
                     var browseViewModel = new BrowseViewModel()
                     {
                         Files = files,
@@ -47,11 +71,20 @@
                         CurrentDirectory = directory,
                     };
 
+                    // TODO DELETE
+                    if (browseViewModel == null)
+                    {
+                        this.TempData["error"] = this.TempData["error"] + " browseViewModel IS NULL ";
+                    }
+
                     return this.View(browseViewModel);
                 }
             }
             catch (Exception)
             {
+                // TODO DELETE
+                this.TempData["error"] = this.TempData["error"] + " EXCEPTION ";
+
                 return this.View("Error");
             }
 
