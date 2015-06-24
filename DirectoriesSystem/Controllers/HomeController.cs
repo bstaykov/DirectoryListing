@@ -14,9 +14,8 @@
 
         public ActionResult Index(string directory = "")
         {
-            string relativePath = Server.MapPath("~\\Files");
-            
-            // string relativePath = Server.MapPath("~" + RelativePath);
+            // string relativePath = Server.MapPath("~\\Files");
+            string relativePath = Server.MapPath("~" + RelativePath);
             string fullPath = relativePath + "\\" + directory;
 
             try
@@ -42,12 +41,12 @@
             catch (Exception)
             {
                 // TODO DELETE
-                this.TempData["error"] = "ERROR" + fullPath;
+                this.TempData["error"] = "ERROR: " + fullPath;
                 return this.View("Error");
             }
 
             // TODO DELETE
-            this.TempData["error"] = "NOT EXISTING DIRECTORY" + fullPath;
+            this.TempData["error"] = "NOT EXISTING DIRECTORY: " + fullPath;
 
             return this.View();
         }
@@ -72,6 +71,7 @@
             if (currentDirectory == null)
             {
                 string fullPath = Server.MapPath("~" + RelativePath);
+
                 return this.PartialView("_AddDirectory", new DirectoryInputModel() { CurrentDirectory = string.Empty, Name = "NewFolder" });
             }
             else
