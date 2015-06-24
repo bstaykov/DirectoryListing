@@ -1,7 +1,7 @@
 ﻿@model DirectoryInfo
 @{
     var id = "freshAddedDir" + @Model.Name;
-    var directory = @Model.FullName.Substring(@Model.FullName.IndexOf(@"\Files\RootFolder\") + 18);
+    var directory = @Model.FullName.Substring(@Model.FullName.IndexOf(@"\Files") + 6);
 }
 <tr id="@id">
     <td>

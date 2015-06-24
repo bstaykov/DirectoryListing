@@ -9,42 +9,15 @@
 
     public class HomeController : Controller
     {
-        private const string RelativePath = "\\Files\\RootFolder";
-        private const int RelativePathLength = 18;
+        private const string RelativePath = "\\Files";
+        private const int RelativePathLength = 6;
 
         public ActionResult Index(string directory = "")
         {
-            // TODO DELETE
-            this.TempData["error"] = "ERROR1";
-
-            string relativePath = Server.MapPath("~\\Files\\RootFolder");
-
-            // TODO DELETE
-            this.TempData["error"] = "ERROR2";
-
-            // TODO DELETE
-            if (directory == null)
-            {
-                this.TempData["error"] = "directory IS NULL ";
-            }
-
-            // TODO DELETE
-            if (relativePath == null)
-            {
-                this.TempData["error"] = "relativePath IS NULL ";
-            }
-
-            //string relativePath = Server.MapPath("~" + RelativePath);
+            string relativePath = Server.MapPath("~\\Files");
+            
+            // string relativePath = Server.MapPath("~" + RelativePath);
             string fullPath = relativePath + "\\" + directory;
-
-            // TODO DELETE
-            this.TempData["error"] = "ERROR3";
-
-            // TODO DELETE
-            if (fullPath == null)
-            {
-                this.TempData["error"] = "fullPath IS NULL ";
-            }
 
             try
             {
@@ -54,26 +27,7 @@
                     DirectoryViewModel[] directories;
 
                     this.ExtractPathsInformation(fullPath, out files, out directories);
-
-                    // TODO DELETE
-                    this.TempData["error"] = "ERROR4";
-
-                    // TODO DELETE
-                    if (files == null)
-                    {
-                        this.TempData["error"] = "files IS NULL ";
-                    }
-                    // TODO DELETE
-                    if (directories == null)
-                    {
-                        this.TempData["error"] = "directories IS NULL ";
-                    }
-                    // TODO DELETE
-                    if (this.GetParentDirectory(directory) == null)
-                    {
-                        this.TempData["error"] = "this.GetParentDirectory(directory) IS NULL ";
-                    }
-
+                    
                     var browseViewModel = new BrowseViewModel()
                     {
                         Files = files,
@@ -82,22 +36,13 @@
                         CurrentDirectory = directory,
                     };
 
-                    // TODO DELETE
-                    this.TempData["error"] = "ERROR5";
-                    // TODO DELETE
-                    if (browseViewModel == null)
-                    {
-                        this.TempData["error"] = "browseViewModel IS NULL ";
-                    }
-
                     return this.View(browseViewModel);
                 }
             }
             catch (Exception)
             {
                 // TODO DELETE
-                this.TempData["error"] = "ERROR6";
-
+                this.TempData["error"] = "ERROR" + fullPath;
                 return this.View("Error");
             }
 
@@ -231,11 +176,11 @@
             for (int i = 0; i < filesCount; i++)
             {
                 var fullPath = filesInfo[i].FullName;
-                var path = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
+                var fullPathSubstring = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
 
                 FileViewModel currentFileInfo = new FileViewModel()
                 {
-                    FullPath = path,
+                    FullPath = fullPathSubstring,
                     Name = filesInfo[i].Name,
                     ModifiedOn = filesInfo[i].LastWriteTime,
                     Size = filesInfo[i].Length.ToString(),
@@ -249,11 +194,10 @@
             for (int i = 0; i < directoriesCount; i++)
             {
                 var fullPath = directoriesInfo[i].FullName;
-                var path = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
-
+                var fullPathSubstring = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
                 DirectoryViewModel currentDirectoryInfo = new DirectoryViewModel()
                 {
-                    FullPath = path,
+                    FullPath = fullPathSubstring,
                     Name = directoriesInfo[i].Name,
                     ModifiedOn = directoriesInfo[i].LastWriteTime,
                 };
@@ -270,13 +214,7 @@
                 if (parentDirectoryEndIndex != -1)
                 {
                     string parentDirectory = directory.Substring(0, parentDirectoryEndIndex);
-
-                    // TODO DELETE 
-                    if (parentDirectory == null)
-                    {
-                        this.TempData["error"] = "parentDirectory IS NULL ";
-                    }
-
+                    
                     return parentDirectory;
                 }
             }
