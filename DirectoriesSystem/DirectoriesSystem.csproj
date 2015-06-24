@@ -114,6 +114,7 @@
     <Compile Include="Files\RootFolder\Class1.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Files\RootFolder\NewFolder1\Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,10 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Files\RootFolder\NewFolder1\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder12\NewFolder43222\NewFolder32\" />
-    <Folder Include="Files\RootFolder\NewFolder2\NewFolder32\" />
-    <Folder Include="Files\RootFolder\NewFolder3\NewFolder\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
