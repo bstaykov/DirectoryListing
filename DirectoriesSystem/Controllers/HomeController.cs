@@ -12,7 +12,7 @@
         private const string RelativePath = "\\Files\\RootFolder\\";
         private const int RelativePathLength = 18;
 
-        public ActionResult Index(string directory)
+        public ActionResult Index(string directory = "")
         {
             string relativePath = Server.MapPath("~\\Files\\RootFolder\\");
 
@@ -56,8 +56,7 @@
                     {
                         this.TempData["error"] = this.TempData["error"] + " directories IS NULL ";
                     }
-
-
+                    // TODO DELETE
                     if (this.GetParentDirectory(directory) == null)
                     {
                         this.TempData["error"] = this.TempData["error"] + " this.GetParentDirectory(directory) IS NULL ";
@@ -250,7 +249,7 @@
         {
             if (directory == null)
             {
-                return null;
+                return string.Empty;
             }
             else
             {

@@ -27,7 +27,7 @@
             <tr>
                 <td>
                     <div class="col-lg-12">
-                        @if (@Model.ParentDirectory == null)
+                        @if (@Model.CurrentDirectory == null || @Model.CurrentDirectory == string.Empty)
                         {
                             <ul class="nav nav-pills">
                                 <li role="presentation" class="disabled">
