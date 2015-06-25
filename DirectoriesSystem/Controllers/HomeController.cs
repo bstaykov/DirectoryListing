@@ -63,6 +63,8 @@
                 return this.Content("Invalid file name!");
             }
 
+            name = name.ToLower();
+
             string relativePath = Server.MapPath("~" + RelativePath);
             IList<FileViewModel> filesInfo = new List<FileViewModel>();
             this.ProcessDirectory(relativePath, name, filesInfo);
@@ -364,7 +366,7 @@
 
             for (int i = 0; i < filesCount; i++)
             {
-                string fileName = filesInfo[i].Name;
+                string fileName = filesInfo[i].Name.ToLower();
 
                 if (fileName.IndexOf(name) != -1)
                 {
