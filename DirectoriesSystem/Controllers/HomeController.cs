@@ -1,6 +1,7 @@
 ﻿namespace DirectoriesSystem.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Net;
     using System.Net.Mime;
@@ -14,6 +15,7 @@
         private const string RelativePath = "\\Files";
         private const int RelativePathLength = 6;
 
+        [HttpGet]
         public ActionResult Index(string directory = "")
         {
             // string relativePath = Server.MapPath("~\\Files");
@@ -28,7 +30,7 @@
                     DirectoryViewModel[] directories;
 
                     this.ExtractPathsInformation(fullPath, out files, out directories);
-                    
+
                     var browseViewModel = new BrowseViewModel()
                     {
                         Files = files,
@@ -53,6 +55,27 @@
             return this.View();
         }
 
+        [HttpGet]
+        public ActionResult SearchFile(string name)
+        {
+            if (name == null || (name = name.Trim()) == string.Empty)
+            {
+                return this.Content("Invalid file name!");
+            }
+
+            string relativePath = Server.MapPath("~" + RelativePath);
+            IList<FileViewModel> filesInfo = new List<FileViewModel>();
+            this.ProcessDirectory(relativePath, name, filesInfo);
+
+            if (filesInfo.Count == 0)
+            {
+                return this.Content("No files found.");
+            }
+
+            return this.PartialView("_SearchFile", filesInfo);
+        }
+
+        [HttpGet]
         public ActionResult DeleteDirectory(string directory)
         {
             string fullPath = Server.MapPath("~" + RelativePath + "\\" + directory);
@@ -313,12 +336,52 @@
                 if (parentDirectoryEndIndex != -1)
                 {
                     string parentDirectory = directory.Substring(0, parentDirectoryEndIndex);
-                    
+
                     return parentDirectory;
                 }
             }
 
             return string.Empty;
+        }
+
+        private IList<FileViewModel> ProcessDirectory(string targetDirectory, string fileName, IList<FileViewModel> filesViewModels)
+        {
+            DirectoryInfo directory = new DirectoryInfo(targetDirectory);
+            FileInfo[] filesInfo = directory.GetFiles();
+            this.ProcessFiles(filesInfo, filesViewModels, fileName);
+            string[] subDirectories = Directory.GetDirectories(targetDirectory);
+            foreach (string subDirectory in subDirectories)
+            {
+                this.ProcessDirectory(subDirectory, fileName, filesViewModels);
+            }
+
+            return filesViewModels;
+        }
+
+        private void ProcessFiles(FileInfo[] filesInfo, IList<FileViewModel> filesViewModels, string name)
+        {
+            int filesCount = filesInfo.Length;
+
+            for (int i = 0; i < filesCount; i++)
+            {
+                string fileName = filesInfo[i].Name;
+
+                if (fileName.IndexOf(name) != -1)
+                {
+                    var fullPath = filesInfo[i].FullName;
+                    var fullPathSubstring = fullPath.Substring(fullPath.IndexOf(RelativePath) + RelativePathLength);
+
+                    FileViewModel currentFileInfo = new FileViewModel()
+                    {
+                        FullPath = fullPathSubstring,
+                        Name = fileName,
+                        ModifiedOn = filesInfo[i].LastWriteTime,
+                        Size = filesInfo[i].Length.ToString(),
+                    };
+
+                    filesViewModels.Add(currentFileInfo);
+                }
+            }
         }
     }
 }

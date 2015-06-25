@@ -1,0 +1,45 @@
+﻿@using DirectoriesSystem.Models
+
+@model IEnumerable<FileViewModel>
+@{
+    var idCounter = 0;
+}
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Last Modified
+                </th>
+                <th>
+                    Size
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in @Model)
+            {
+                var id = "searchedFile" + idCounter++;
+
+                <tr id="@id">
+                    <td>
+                        @file.Name
+
+                        @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", @file.FullPath } })
+
+                        @Html.ActionLink(" Download", "DownloadFile", "Home",
+                                                routeValues: new { filePath = @file.FullPath, fileName = @file.Name },
+                                                htmlAttributes: new { Title = "Download File", @class = "glyphicon glyphicon-download" })
+                    </td>
+
+                    <td>@file.ModifiedOn</td>
+                    <td>@file.Size</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

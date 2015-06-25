@@ -7,7 +7,7 @@
     var idCounter = 0;
 }
 
-<div class="">
+<div class="row">
     <div id="content">
         @if (@Model == null)
         {
@@ -25,10 +25,10 @@
                         </th>
                     </tr>
                 </thead>
-                <tr id="newDirectories"></tr>
-
-
-                <tr id="newFiles"></tr>
+                <tbody>
+                    <tr id="newDirectories"></tr>
+                    <tr id="newFiles"></tr>
+                </tbody>
             </table>
         }
         else
@@ -47,37 +47,38 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td>
-                        <div class="col-lg-12">
-                            @if (@Model.CurrentDirectory == null || @Model.CurrentDirectory == string.Empty)
-                            {
-                                <ul class="nav nav-pills">
-                                    <li role="presentation" class="disabled">
-                                        <span class="glyphicon glyphicon-folder-open" aria-hidden="true"><a href="#"></a> ...</span>
-                                    </li>
-                                </ul>
-                            }
-                            else
-                            {
-                                @Html.ActionLink(" " + @Model.CurrentDirectory, "Index",
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="col-lg-12">
+                                @if (@Model.CurrentDirectory == null || @Model.CurrentDirectory == string.Empty)
+                                {
+                                    <ul class="nav nav-pills">
+                                        <li role="presentation" class="disabled">
+                                            <span class="glyphicon glyphicon-folder-open" aria-hidden="true"><a href="#"></a> ...</span>
+                                        </li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(" " + @Model.CurrentDirectory, "Index",
                                         new { directory = @Model.ParentDirectory },
                                         htmlAttributes: new { @class = "glyphicon glyphicon-folder-open", Title = "Close Directory" })
-                            }
-                        </div>
-                    </td>
-                    <td></td>
-                    <td>-</td>
-                </tr>
-                @{
+                                }
+                            </div>
+                        </td>
+                        <td></td>
+                        <td>-</td>
+                    </tr>
+                    @{
             foreach (var directory in @Model.Directories)
             {
                 var id = "dir" + idCounter++;
                 <tr id="@id">
                     <td>
                         @Html.ActionLink(" " + @directory.Name, "Index",
-                                        new { directory = @directory.FullPath },
-                                        htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
+                                                            new { directory = @directory.FullPath },
+                                                            htmlAttributes: new { @class = "glyphicon glyphicon-folder-close ", Title = "Open Directory" })
 
                         @Html.Partial("_DeleteDirectoryLink", new ViewDataDictionary { { "id", @id }, { "directory", @directory.FullPath } })
 
@@ -100,8 +101,8 @@
                         @Html.Partial("_DeleteFileLink", new ViewDataDictionary { { "id", @id }, { "filePath", @file.FullPath } })
 
                         @Html.ActionLink(" Download", "DownloadFile", "Home",
-                            routeValues: new { filePath = @file.FullPath, fileName = @file.Name },
-                            htmlAttributes: new { Title = "Download File", @class = "glyphicon glyphicon-download" })
+                                                routeValues: new { filePath = @file.FullPath, fileName = @file.Name },
+                                                htmlAttributes: new { Title = "Download File", @class = "glyphicon glyphicon-download" })
                     </td>
 
                     <td>@file.ModifiedOn</td>
@@ -109,7 +110,8 @@
                 </tr>
             }
             <tr id="newFiles"></tr>
-                }
+                    }
+                </tbody>
             </table>
         }
     </div>
@@ -133,7 +135,7 @@
                             LoadingElementId = "progressBar",
                             HttpMethod = "Get",
                         },
-                        new { Title = "Add Directory", @class = "glyphicon glyphicon-folder-open" })
+                        new { Title = "Add New Directory", @class = "glyphicon glyphicon-folder-open" })
 
         @*<button type="button" class="btn btn-default" title="Create Directory">
                 @Ajax.ActionLink(" ", "AddDirectory", "Home", new { currentDirectory = @currentDirectory },
@@ -163,7 +165,7 @@
 <hr />
 <div class="row">
     <div class="col-lg-4">
-        @using (Html.BeginForm("AddFile", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("AddFile", "Home", FormMethod.Post, new { id = "addFileForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
@@ -171,10 +173,11 @@
 
             <div class="form-group">
                 <div class="col-lg-4">
-                    <button type="submit" class="btn btn-warning" aria-label="Left Align" title="Upload File" onclick="return checkFileSize('fileToCheck', 2048000)">
-                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-                    </button>
+                    @*<button type="submit" class="btn btn-warning" aria-label="Left Align" title="Upload File" onclick="return checkFileSize('fileToCheck', 2048000)">
+                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                        </button>*@
                     <input type="file" name="file" id="fileToCheck" onchange="return checkFileSize('fileToCheck', 2048000)">
+                    <a href="#" title="Upload New File" onclick="document.getElementById('addFileForm').submit(); return false;"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload File</a>
                 </div>
             </div>
         }
@@ -187,3 +190,39 @@
         <strong>Warning!</strong> @this.TempData["fileUploadState"]
     </div>
 }
+
+<hr />
+
+<div class="row">
+    <p>
+        @using (Ajax.BeginForm("SearchFile", null,
+            new AjaxOptions
+            {
+                UpdateTargetId = "filesFound",
+                InsertionMode = InsertionMode.Replace,
+                LoadingElementId = "searchLoadingElement",
+                HttpMethod = "GET"
+            },
+            new { @class = "form-horizontal", role = "search" }))
+        {
+            <div class="col-lg-2">
+                <input type="text" name="name" id="nameToCheck" class="form-control col-sm-1" placeholder="File Name" required>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-info col-sm-1" value="Search" title="Search file by name" />
+            </div>
+        }
+    </p>
+</div>
+
+<hr />
+
+<div class="row" id="filesFound"></div>
+
+<div class="row">
+    <div class="progress progressBar" id="searchLoadingElement">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="10" style="width: 75%">
+            <span class="sr-only">75% Complete (info)</span>
+        </div>
+    </div>
+</div>
